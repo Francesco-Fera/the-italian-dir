@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String @id @unique
+  email        String
+  firstName    String
+  lastName     String
+  profileImage String
+
+  role Role @default(USER)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  startups  Startup[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum StartupStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Startup {
+  id           String        @id @default(uuid())
+  name         String
+  tagline      String?
+  description  String?
+  websiteUrl   String?
+  foundedYear  Int?
+  location     String?
+  status       StartupStatus @default(PENDING)
+  features     String[]
+  logoUrl      String?
+  thumbnailUrl String?
+  category     String?
+
+  suggestedByUser   User?   @relation(fields: [suggestedByUserId], references: [id])
+  suggestedByUserId String?
+
+  tags  StartupOnTag[]
+  media Media[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id       String         @id @default(uuid())
+  name     String         @unique
+  startups StartupOnTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StartupOnTag {
+  startupId String
+  tagId     String
+
+  startup Startup @relation(fields: [startupId], references: [id])
+  tag     Tag     @relation(fields: [tagId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([startupId, tagId])
+}
+
+model Media {
+  id   String    @id @default(uuid())
+  url  String
+  type MediaType
+
+  startupId String?
+  startup   Startup? @relation(fields: [startupId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum MediaType {
+  LOGO
+  THUMBNAIL
+  IMAGE
+  VIDEO
+}
