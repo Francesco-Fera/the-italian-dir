@@ -1,6 +1,6 @@
 import { regioni } from "@/lib/constants";
-import RegioneCard from "../components/RegioniCard";
-import PageHeader from "../components/PageHeader";
+import RegioneCard from "../../components/RegioniCard";
+import PageHeader from "../../components/PageHeader";
 
 function RegioniRoute() {
   return (
