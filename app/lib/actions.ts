@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { Startup } from "@prisma/client";
 
 export const getTotalStartups = async (query: string): Promise<number> => {
   const total = await prisma.startup.count({

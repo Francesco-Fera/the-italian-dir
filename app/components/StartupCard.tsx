@@ -7,14 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Startup } from "@/lib/constants";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { Startup } from "@prisma/client";
 
 interface StartupCardProps {
-  startup: Startup;
+  startup: Partial<Startup>;
 }
 
 export default function StartupCard({ startup }: StartupCardProps) {
