@@ -69,7 +69,6 @@ export const getStartupById = async (id: string) => {
 export const updateStartup = async (formData: FormData) => {
   try {
     console.log(formData);
-    // Extract values from FormData
     const id = formData.get("id") as string;
     const name = formData.get("name") as string;
     const tagline = formData.get("tagline") as string;
@@ -77,7 +76,6 @@ export const updateStartup = async (formData: FormData) => {
     const description = formData.get("description") as string;
     const regione = formData.get("regione") as string;
 
-    // Collect features from FormData
     const features: string[] = [];
     formData.forEach((value, key) => {
       if (key === "feature" && value) {
@@ -85,12 +83,10 @@ export const updateStartup = async (formData: FormData) => {
       }
     });
 
-    // Validate that an ID exists
     if (!id) {
       throw new Error("Startup ID is required.");
     }
 
-    // Update the startup in the database
     const updatedStartup = await prisma.startup.update({
       where: {
         id,
@@ -101,13 +97,11 @@ export const updateStartup = async (formData: FormData) => {
         category,
         description,
         location: regione,
-        features: features.length > 0 ? features : undefined, // Only update if features exist
+        features: features.length > 0 ? features : undefined,
       },
     });
 
     revalidatePath(`/app/${id}`);
-
-    // return updatedStartup;
   } catch (error) {
     console.error("Error updating startup:", error);
     throw error;
