@@ -39,9 +39,28 @@ export const fetchFilteredPaginatedStartups = async ({
   const total = await getTotalStartups(query);
 
   return {
-    data: startups,
+    data: startups as Startup[],
     total,
     totalPages: Math.ceil(total / itemsPerPage),
     currentPage: page,
   };
+};
+
+export const getStartupById = async (id: string) => {
+  try {
+    const startup = await prisma.startup.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!startup) {
+      throw new Error(`Startup with ID ${id} not found.`);
+    }
+
+    return startup as Startup;
+  } catch (error) {
+    console.error("Error fetching startup by ID:", error);
+    throw error;
+  }
 };

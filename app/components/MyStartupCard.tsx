@@ -17,13 +17,6 @@ interface MyStartupCardProps {
 }
 
 function MyStartupCard({ startup }: MyStartupCardProps) {
-  const statusColor =
-    startup.status === "APPROVED"
-      ? "green"
-      : startup.status === "PENDING"
-      ? "yellow"
-      : "red";
-
   const status = getStatusElements(startup.status);
   return (
     <Link href={`/app/${startup.id}`}>
