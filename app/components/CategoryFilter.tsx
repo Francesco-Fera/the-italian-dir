@@ -9,57 +9,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-const categories = [
-  "Archive",
-  "Battery",
-  "Bike",
-  "Bluetooth",
-  "Book",
-  "Bookmark",
-  "Calendar",
-  "Camera",
-  "Car",
-  "Cloud",
-  "Coffee",
-  "CreditCard",
-  "File",
-  "FileText",
-  "Flag",
-  "Folder",
-  "Gift",
-  "Globe",
-  "Heart",
-  "Home",
-  "Image",
-  "Key",
-  "Lock",
-  "Mail",
-  "Map",
-  "MapPin",
-  "Moon",
-  "Music",
-  "Package",
-  "PenTool",
-  "Plane",
-  "Power",
-  "Search",
-  "Settings",
-  "ShoppingCart",
-  "Smile",
-  "Star",
-  "Sun",
-  "Tag",
-  "Train",
-  "Trash",
-  "Trophy",
-  "Truck",
-  "Umbrella",
-  "Unlock",
-  "User",
-  "Utensils",
-  "Video",
-];
+import { categories } from "@/lib/constants";
 
 function CategoryFilter() {
   const searchParams = useSearchParams();

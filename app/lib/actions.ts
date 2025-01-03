@@ -64,3 +64,20 @@ export const getStartupById = async (id: string) => {
     throw error;
   }
 };
+
+export const updateStartup = async (formData: FormData) => {
+  console.log("formData", formData);
+  // try {
+  //   const updatedStartup = await prisma.startup.update({
+  //     where: {
+  //       id,
+  //     },
+  //     data,
+  //   });
+
+  //   return updatedStartup;
+  // } catch (error) {
+  //   console.error("Error updating startup:", error);
+  //   throw error;
+  // }
+};
