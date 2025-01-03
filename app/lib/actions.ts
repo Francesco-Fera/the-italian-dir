@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db";
 import { Startup } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getTotalStartups = async (query: string): Promise<number> => {
   const total = await prisma.startup.count({
@@ -66,18 +67,49 @@ export const getStartupById = async (id: string) => {
 };
 
 export const updateStartup = async (formData: FormData) => {
-  console.log("formData", formData);
-  // try {
-  //   const updatedStartup = await prisma.startup.update({
-  //     where: {
-  //       id,
-  //     },
-  //     data,
-  //   });
+  try {
+    console.log(formData);
+    // Extract values from FormData
+    const id = formData.get("id") as string;
+    const name = formData.get("name") as string;
+    const tagline = formData.get("tagline") as string;
+    const category = formData.get("category") as string;
+    const description = formData.get("description") as string;
+    const regione = formData.get("regione") as string;
 
-  //   return updatedStartup;
-  // } catch (error) {
-  //   console.error("Error updating startup:", error);
-  //   throw error;
-  // }
+    // Collect features from FormData
+    const features: string[] = [];
+    formData.forEach((value, key) => {
+      if (key === "feature" && value) {
+        features.push(value as string);
+      }
+    });
+
+    // Validate that an ID exists
+    if (!id) {
+      throw new Error("Startup ID is required.");
+    }
+
+    // Update the startup in the database
+    const updatedStartup = await prisma.startup.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        tagline,
+        category,
+        description,
+        location: regione,
+        features: features.length > 0 ? features : undefined, // Only update if features exist
+      },
+    });
+
+    revalidatePath(`/app/${id}`);
+
+    // return updatedStartup;
+  } catch (error) {
+    console.error("Error updating startup:", error);
+    throw error;
+  }
 };

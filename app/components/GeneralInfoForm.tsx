@@ -18,6 +18,8 @@ interface GeneralInfoFormProps {
 }
 
 export default function GeneralInfoForm({ startup }: GeneralInfoFormProps) {
+  const MAX_FEATURES = 6;
+
   return (
     <div className='space-y-4'>
       <FormItem>
@@ -56,11 +58,10 @@ export default function GeneralInfoForm({ startup }: GeneralInfoFormProps) {
       </FormItem>
       <FormItem>
         <Label htmlFor='category'>Categoria</Label>
-        <Select name='category'>
+        <Select name='category' defaultValue={startup.category || ""}>
           <SelectTrigger className='w-full'>
             <SelectValue
               placeholder={startup.category || "Nessuna categoria"}
-              defaultValue={startup.category || ""}
             />
           </SelectTrigger>
           <SelectContent>
@@ -81,13 +82,25 @@ export default function GeneralInfoForm({ startup }: GeneralInfoFormProps) {
           defaultValue={startup.description || ""}
         />
       </FormItem>
+      <div className='mt-6 mb-4'>
+        <Label className=''>Features</Label>
+        {[...Array(MAX_FEATURES)].map((_, index) => (
+          <FormItem key={`feature-${index}`} className='mb-4'>
+            <Input
+              id={`feature-${index}`}
+              name={`feature`}
+              defaultValue={startup.features?.[index] || ""}
+              placeholder={`Feature ${index + 1}`}
+            />
+          </FormItem>
+        ))}
+      </div>
       <FormItem>
         <Label htmlFor='regione'>Regione</Label>
-        <Select name='regione'>
+        <Select name='regione' defaultValue={startup.location || ""}>
           <SelectTrigger className='w-full'>
             <SelectValue
               placeholder={startup.location || "Seleziona Regione"}
-              defaultValue={startup.location || ""}
             />
           </SelectTrigger>
           <SelectContent>

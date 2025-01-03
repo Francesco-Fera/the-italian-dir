@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import MediaForm from "@/app/components/MediaForm";
 import GeneralInfoForm from "@/app/components/GeneralInfoForm";
 import LinksForm from "@/app/components/LinksForm";
+import { SubmitButton } from "@/app/components/Buttons";
 
 interface MyStartupCrudPageProps {
   params: Promise<{
@@ -39,6 +40,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
       </Link>
       <div className='my-8'>
         <form action={updateStartup}>
+          <input type='hidden' name='id' value={startup.id} />
           <Tabs defaultValue='general' className='max-w-[600px]'>
             <TabsList className='mb-4'>
               <TabsTrigger value='general'>Generale</TabsTrigger>
@@ -55,9 +57,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
               <LinksForm />
             </TabsContent>
           </Tabs>
-          <Button type='submit' className='w-full mt-4'>
-            Salva
-          </Button>
+          <SubmitButton />
         </form>
       </div>
     </div>
