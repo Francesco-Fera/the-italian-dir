@@ -17,10 +17,12 @@ async function StartupRoute(props: StartupRouteProps) {
   const currentPage = Number(searchParams?.page) || 1;
   return (
     <div>
-      <PageHeader
-        headline='Tutte le startup'
-        subHeadline='Esplora le startup italiane'
-      />
+      <div className='mb-16'>
+        <PageHeader
+          headline='Tutte le startup'
+          subHeadline='Esplora le startup italiane'
+        />
+      </div>
       <div className='flex gap-4 flex-wrap'>
         <div className='max-w-64 min-w-64'>
           <Search />

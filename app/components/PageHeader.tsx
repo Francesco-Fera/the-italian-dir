@@ -16,7 +16,7 @@ function PageHeader({
   backToText,
 }: PageHeaderProps) {
   return (
-    <div className='mb-16'>
+    <div>
       {backToPath && backToText && (
         <Link
           href={backToPath ?? "/"}

@@ -22,12 +22,14 @@ async function RegionePage(props: RegionePageProps) {
   const currentPage = Number(searchParams?.page) || 1;
   return (
     <div>
-      <PageHeader
-        headline={regione!.displayName}
-        subHeadline={`Esplora le startup italiane nella Regione ${regione?.displayName}`}
-        backToPath='/regioni'
-        backToText='Tutte le regioni'
-      />
+      <div className='mb-16'>
+        <PageHeader
+          headline={regione!.displayName}
+          subHeadline={`Esplora le startup italiane nella Regione ${regione?.displayName}`}
+          backToPath='/regioni'
+          backToText='Tutte le regioni'
+        />
+      </div>
       <div className='flex gap-4 flex-wrap'>
         <div className='max-w-64 min-w-64'>
           <Search />

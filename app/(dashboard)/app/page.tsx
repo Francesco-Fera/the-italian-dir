@@ -1,8 +1,6 @@
 import MyStartupList from "@/app/components/MyStartupList";
 import PageHeader from "@/app/components/PageHeader";
 import { fetchFilteredPaginatedStartups } from "@/app/lib/actions";
-import { Startup } from "@prisma/client";
-import React from "react";
 
 async function DashboardRoute() {
   const query = "";
@@ -13,10 +11,12 @@ async function DashboardRoute() {
   });
   return (
     <>
-      <PageHeader
-        headline='Dashboard'
-        subHeadline='Suggerisci e gestisci le Startup.'
-      />
+      <div className='mb-16'>
+        <PageHeader
+          headline='Dashboard'
+          subHeadline='Suggerisci e gestisci le Startup.'
+        />
+      </div>
       <MyStartupList startups={startups.data} />
     </>
   );
