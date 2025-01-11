@@ -33,7 +33,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
         <Circle size={16} color={status.color} strokeWidth={3} /> {status.text}
       </div>
       <Link
-        className='flex items-center gap-2 text-muted-foreground underline mt-4 text-sm'
+        className='flex items-center gap-2 max-w-fit text-muted-foreground underline mt-4 text-sm'
         href={`/startup/${startup.name}`}
         target='_blank'
       >
