@@ -80,9 +80,10 @@ model StartupOnTag {
 }
 
 model Media {
-  id   String    @id @default(uuid())
-  url  String
-  type MediaType
+  id       String    @id @default(uuid())
+  fileName String
+  url      String
+  type     MediaType
 
   startupId String?
   startup   Startup? @relation(fields: [startupId], references: [id])

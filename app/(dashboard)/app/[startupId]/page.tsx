@@ -20,6 +20,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
   const { startupId } = await params;
   const startup = await getStartupById(startupId);
   const status = getStatusElements(startup.status);
+
   return (
     <div>
       <PageHeader
@@ -39,26 +40,26 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
         Visita la pagina <ExternalLink size={16} />
       </Link>
       <div className='my-8'>
-        <form action={updateStartup}>
-          <input type='hidden' name='id' value={startup.id} />
-          <Tabs defaultValue='general' className='max-w-[600px]'>
-            <TabsList className='mb-4'>
-              <TabsTrigger value='general'>Generale</TabsTrigger>
-              <TabsTrigger value='Media'>Media</TabsTrigger>
-              <TabsTrigger value='links'>Links</TabsTrigger>
-            </TabsList>
-            <TabsContent value='general'>
-              <GeneralInfoForm startup={startup} />
-            </TabsContent>
-            <TabsContent value='Media'>
-              <MediaForm />
-            </TabsContent>
-            <TabsContent value='links'>
-              <LinksForm />
-            </TabsContent>
-          </Tabs>
-          <SubmitButton />
-        </form>
+        <Tabs defaultValue='general' className='max-w-[600px]'>
+          <TabsList className='mb-4'>
+            <TabsTrigger value='general'>Generale</TabsTrigger>
+            <TabsTrigger value='Media'>Media</TabsTrigger>
+            <TabsTrigger value='links'>Links</TabsTrigger>
+          </TabsList>
+          <TabsContent value='general'>
+            <GeneralInfoForm startup={startup} />
+          </TabsContent>
+          <TabsContent value='Media'>
+            <MediaForm
+              startupId={startupId}
+              currentLogoUrl={startup.logoUrl || ""}
+              currentCoverUrl={startup.thumbnailUrl || ""}
+            />
+          </TabsContent>
+          <TabsContent value='links'>
+            <LinksForm />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
