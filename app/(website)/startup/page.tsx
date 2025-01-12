@@ -3,6 +3,7 @@ import PageHeader from "../../components/PageHeader";
 import StartupList from "../../components/StartupList";
 import Search from "../../components/Search";
 import CategoryFilter from "../../components/CategoryFilter";
+import { getAllCategories } from "@/app/lib/actions";
 
 interface StartupRouteProps {
   searchParams?: Promise<{
@@ -15,6 +16,8 @@ async function StartupRoute(props: StartupRouteProps) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
+  const allCategories = await getAllCategories();
+
   return (
     <div>
       <div className='mb-16'>
@@ -28,7 +31,7 @@ async function StartupRoute(props: StartupRouteProps) {
           <Search />
         </div>
         <div className='max-w-64 min-w-64'>
-          <CategoryFilter />
+          <CategoryFilter allCategories={allCategories} />
         </div>
       </div>
       <Suspense

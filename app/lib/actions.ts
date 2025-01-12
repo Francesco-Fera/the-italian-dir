@@ -49,6 +49,38 @@ export const fetchFilteredPaginatedStartups = async ({
   };
 };
 
+export const fetchPaginatedStartupsByCategory = async ({
+  categoryId,
+  page,
+}: {
+  categoryId: string;
+  page: number;
+}) => {
+  const itemsPerPage = 10;
+  const offset = (page - 1) * itemsPerPage;
+
+  const startups = await prisma.startup.findMany({
+    where: {
+      categoryId: categoryId,
+    },
+    skip: offset,
+    take: itemsPerPage,
+  });
+
+  const total = await prisma.startup.count({
+    where: {
+      categoryId: categoryId,
+    },
+  });
+
+  return {
+    data: startups as Startup[],
+    total,
+    totalPages: Math.ceil(total / itemsPerPage),
+    currentPage: page,
+  };
+};
+
 export const getStartupById = async (id: string) => {
   try {
     const startup = await prisma.startup.findUnique({
@@ -73,7 +105,7 @@ export const updateStartup = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const name = formData.get("name") as string;
     const tagline = formData.get("tagline") as string;
-    const category = formData.get("category") as string;
+    const categoryId = formData.get("category") as string;
     const description = formData.get("description") as string;
     const regione = formData.get("regione") as string;
 
@@ -91,7 +123,7 @@ export const updateStartup = async (formData: FormData) => {
     const updateData: any = {
       name,
       tagline,
-      category,
+      categoryId,
       description,
       location: regione,
       features: features.length > 0 ? features : undefined,
@@ -113,6 +145,21 @@ export const updateStartup = async (formData: FormData) => {
     return { success: false, error: "Failed to update startup" };
   }
 };
+
+export async function getAllCategories() {
+  const categories = await prisma.category.findMany({});
+  return categories;
+}
+
+export async function getCategoryById(id: string) {
+  const category = await prisma.category.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return category;
+}
 
 export async function uploadImage(file: File, type: MediaType) {
   // const { getUser } = getKindeServerSession();

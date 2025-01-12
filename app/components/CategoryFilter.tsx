@@ -9,30 +9,33 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { categories } from "@/lib/constants";
 
-function CategoryFilter() {
+function CategoryFilter({ allCategories }: { allCategories: any[] }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
     searchParams.get("cat")?.toString() || ""
   );
 
-  const filteredCategories = categories.filter((category) =>
-    category.toLowerCase().includes(query.toLowerCase())
+  const selectedCategory = allCategories.find(
+    (category) => category.id === selectedCategoryId
   );
 
-  const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
+  const filteredCategories = allCategories.filter((category) =>
+    category.displayName.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const handleSelectCategory = (categoryId: string) => {
+    setSelectedCategoryId(categoryId);
 
     const params = new URLSearchParams(searchParams);
 
-    if (category) {
-      params.set("cat", category);
+    if (categoryId) {
+      params.set("cat", categoryId);
     } else {
       params.delete("cat");
     }
@@ -46,7 +49,9 @@ function CategoryFilter() {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button variant='outline' className='w-full justify-start'>
-          {selectedCategory ? <>{selectedCategory}</> : "Seleziona"}
+          {selectedCategory
+            ? selectedCategory.displayName
+            : "Seleziona una categoria"}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[280px] p-0'>
@@ -64,21 +69,19 @@ function CategoryFilter() {
             className='w-full h-auto text-start justify-start items-start pt-0 gap-0'
             onClick={() => handleSelectCategory("")}
           >
-            rimuovi filtro
+            Rimuovi filtro
           </Button>
           <div className='grid grid-cols-1 gap-2 px-4 pb-4'>
-            {filteredCategories.map((category) => {
-              return (
-                <Button
-                  key={category}
-                  variant='outline'
-                  className='w-full p-0 px-4 justify-start'
-                  onClick={() => handleSelectCategory(category)}
-                >
-                  {category}
-                </Button>
-              );
-            })}
+            {filteredCategories.map((category) => (
+              <Button
+                key={category.id}
+                variant='outline'
+                className='w-full p-0 px-4 justify-start'
+                onClick={() => handleSelectCategory(category.id)}
+              >
+                {category.displayName}
+              </Button>
+            ))}
           </div>
         </ScrollArea>
       </PopoverContent>

@@ -1,4 +1,4 @@
-import { FormDescription, FormItem } from "@/components/ui/form";
+import { FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -9,18 +9,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { categories, regioni } from "@/lib/constants";
+import { regioni } from "@/lib/constants";
 import { Startup } from "@prisma/client";
 import Link from "next/link";
-import { updateStartup } from "../lib/actions";
+import { getAllCategories, updateStartup } from "../lib/actions";
 import { SubmitButton } from "./Buttons";
 
 interface GeneralInfoFormProps {
   startup: Partial<Startup>;
 }
 
-export default function GeneralInfoForm({ startup }: GeneralInfoFormProps) {
+export default async function GeneralInfoForm({
+  startup,
+}: GeneralInfoFormProps) {
   const MAX_FEATURES = 6;
+
+  const allCategories = await getAllCategories();
 
   const handleUpadateStartup = async (formData: FormData) => {
     "use server";
@@ -67,16 +71,20 @@ export default function GeneralInfoForm({ startup }: GeneralInfoFormProps) {
         </FormItem>
         <FormItem>
           <Label htmlFor='category'>Categoria</Label>
-          <Select name='category' defaultValue={startup.category || ""}>
+          <Select name='category' defaultValue={startup.categoryId || ""}>
             <SelectTrigger className='w-full'>
               <SelectValue
-                placeholder={startup.category || "Nessuna categoria"}
+                placeholder={
+                  allCategories.find(
+                    (category: any) => category.id === startup.categoryId
+                  )?.displayName || "Nessuna categoria"
+                }
               />
             </SelectTrigger>
             <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
+              {allCategories.map((category: any) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.displayName}
                 </SelectItem>
               ))}
             </SelectContent>

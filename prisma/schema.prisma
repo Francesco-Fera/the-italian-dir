@@ -45,7 +45,8 @@ model Startup {
   features     String[]
   logoUrl      String?
   thumbnailUrl String?
-  category     String?
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  categoryId   String?
 
   suggestedByUser   User?   @relation(fields: [suggestedByUserId], references: [id])
   suggestedByUserId String?
@@ -87,6 +88,17 @@ model Media {
 
   startupId String?
   startup   Startup? @relation(fields: [startupId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String
+  displayName String
+  description String?
+  startups    Startup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
