@@ -1,7 +1,10 @@
 import PageHeader from "@/app/components/PageHeader";
 import Search from "@/app/components/Search";
 import StartupList from "@/app/components/StartupList";
-import { regioni } from "@/lib/constants";
+import {
+  fetchPaginatedStartupsByCategoryId,
+  getCategoryByName,
+} from "@/app/lib/actions";
 import { Suspense } from "react";
 
 interface CategoryRouteProps {
@@ -15,16 +18,21 @@ interface CategoryRouteProps {
 }
 
 async function CategoryRoute(props: CategoryRouteProps) {
-  const regione = regioni.find((r) => r.name === props.params.slug);
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
+  const category = await getCategoryByName(props.params.slug);
+  const startups = await fetchPaginatedStartupsByCategoryId({
+    id: category!.id,
+    page: currentPage,
+  });
+
   return (
     <div>
       <div className='mb-16'>
         <PageHeader
-          headline={regione!.displayName}
-          subHeadline={`Esplora le startup italiane nella categoria ${regione?.displayName}`}
+          headline={category!.displayName}
+          subHeadline={`Esplora le startup italiane nella categoria ${category?.displayName}`}
           backToPath='/categorie'
           backToText='Tutte le categorie'
         />
@@ -33,9 +41,6 @@ async function CategoryRoute(props: CategoryRouteProps) {
         <div className='max-w-64 min-w-64'>
           <Search />
         </div>
-        {/* <div className='max-w-64 min-w-64'>
-          <CategoryFilter />
-        </div> */}
       </div>
       <Suspense
         key={query + currentPage}
