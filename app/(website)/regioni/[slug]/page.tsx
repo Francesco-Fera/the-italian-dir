@@ -44,7 +44,7 @@ async function RegionePage(props: RegionePageProps) {
         key={query + currentPage}
         fallback={<div className='w-full text-center my-4 '>Loading...</div>}
       >
-        <StartupList query={query} page={currentPage} />
+        <StartupList filters={{ query }} page={currentPage} />
       </Suspense>
     </div>
   );

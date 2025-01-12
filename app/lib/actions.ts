@@ -18,22 +18,41 @@ export const getTotalStartups = async (query: string): Promise<number> => {
 };
 
 export const fetchFilteredPaginatedStartups = async ({
-  query,
+  filters,
   page,
 }: {
-  query: string;
+  filters: {
+    query?: string;
+    categoryId?: string;
+    regione?: string;
+  };
   page: number;
 }) => {
   const itemsPerPage = 10;
   const offset = (page - 1) * itemsPerPage;
 
+  const where: any = {};
+
+  if (filters.query) {
+    where.name = {
+      contains: filters.query,
+      mode: "insensitive",
+    };
+  }
+
+  if (filters.categoryId) {
+    where.categoryId = filters.categoryId;
+  }
+
+  if (filters.regione) {
+    where.location = {
+      contains: filters.regione,
+      mode: "insensitive",
+    };
+  }
+
   const startups = await prisma.startup.findMany({
-    where: {
-      name: {
-        contains: query,
-        mode: "insensitive",
-      },
-    },
+    where,
     include: {
       category: true,
     },
@@ -41,10 +60,10 @@ export const fetchFilteredPaginatedStartups = async ({
     take: itemsPerPage,
   });
 
-  const total = await getTotalStartups(query);
+  const total = await prisma.startup.count({ where });
 
   return {
-    data: startups as Startup[],
+    data: startups,
     total,
     totalPages: Math.ceil(total / itemsPerPage),
     currentPage: page,

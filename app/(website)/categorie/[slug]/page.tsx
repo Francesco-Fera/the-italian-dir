@@ -46,7 +46,10 @@ async function CategoryRoute(props: CategoryRouteProps) {
         key={query + currentPage}
         fallback={<div className='w-full text-center my-4 '>Loading...</div>}
       >
-        <StartupList query={query} page={currentPage} />
+        <StartupList
+          filters={{ categoryId: category!.id, query }}
+          page={currentPage}
+        />
       </Suspense>
     </div>
   );
