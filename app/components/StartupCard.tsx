@@ -10,10 +10,10 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
-import { Startup } from "@prisma/client";
+import { Category, Startup } from "@prisma/client";
 
 interface StartupCardProps {
-  startup: Partial<Startup>;
+  startup: Partial<Startup> & { category: Partial<Category> };
 }
 
 export default function StartupCard({ startup }: StartupCardProps) {
@@ -29,7 +29,7 @@ export default function StartupCard({ startup }: StartupCardProps) {
       </div>
       <CardHeader className='py-2 px-4'>
         <CardTitle>{startup.name}</CardTitle>
-        <CardDescription>{startup.category}</CardDescription>
+        <CardDescription>{startup.category.displayName}</CardDescription>
       </CardHeader>
       <CardContent className='flex-grow px-4'>
         <p>{startup.tagline}</p>

@@ -35,6 +35,9 @@ export const fetchFilteredPaginatedStartups = async ({
         mode: "insensitive",
       },
     },
+    include: {
+      category: true,
+    },
     skip: offset,
     take: itemsPerPage,
   });
