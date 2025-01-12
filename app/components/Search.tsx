@@ -1,7 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 
 function Search() {
   const searchParams = useSearchParams();

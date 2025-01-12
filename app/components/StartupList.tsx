@@ -1,8 +1,6 @@
-import { startups } from "@/lib/constants";
 import StartupCard from "./StartupCard";
 import { StartupPagination } from "./Pagination";
 import { fetchFilteredPaginatedStartups } from "../lib/actions";
-import { Startup } from "@prisma/client";
 
 interface StartupListProps {
   query: string;

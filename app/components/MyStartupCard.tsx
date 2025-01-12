@@ -7,8 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Startup } from "@prisma/client";
-import { Circle, Dot } from "lucide-react";
-import React from "react";
+import { Circle } from "lucide-react";
 import { getStatusElements } from "../lib/utils";
 import Link from "next/link";
 

@@ -1,10 +1,9 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { Media, Startup, MediaType } from "@prisma/client";
+import { Startup, MediaType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { supabase } from "./supabase";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export const getTotalStartups = async (query: string): Promise<number> => {
   const total = await prisma.startup.count({

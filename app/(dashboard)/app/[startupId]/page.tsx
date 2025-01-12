@@ -1,14 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageHeader from "@/app/components/PageHeader";
-import { getStartupById, updateStartup } from "@/app/lib/actions";
+import { getStartupById } from "@/app/lib/actions";
 import { getStatusElements } from "@/app/lib/utils";
 import { Circle, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import MediaForm from "@/app/components/MediaForm";
 import GeneralInfoForm from "@/app/components/GeneralInfoForm";
 import LinksForm from "@/app/components/LinksForm";
-import { SubmitButton } from "@/app/components/Buttons";
 
 interface MyStartupCrudPageProps {
   params: Promise<{

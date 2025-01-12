@@ -1,8 +1,7 @@
-import CategoryFilter from "@/app/components/CategoryFilter";
 import PageHeader from "@/app/components/PageHeader";
 import Search from "@/app/components/Search";
 import StartupList from "@/app/components/StartupList";
-import { regioni, startups } from "@/lib/constants";
+import { regioni } from "@/lib/constants";
 import { Suspense } from "react";
 
 interface CategoryRouteProps {
