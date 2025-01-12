@@ -2,6 +2,7 @@ import CategoryFilter from "@/app/components/CategoryFilter";
 import PageHeader from "@/app/components/PageHeader";
 import Search from "@/app/components/Search";
 import StartupList from "@/app/components/StartupList";
+import { getAllCategories } from "@/app/lib/actions";
 import { regioni, startups } from "@/lib/constants";
 import { Suspense } from "react";
 
@@ -20,6 +21,7 @@ async function RegionePage(props: RegionePageProps) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
+  const allCategories = await getAllCategories();
   return (
     <div>
       <div className='mb-16'>
@@ -35,7 +37,7 @@ async function RegionePage(props: RegionePageProps) {
           <Search />
         </div>
         <div className='max-w-64 min-w-64'>
-          <CategoryFilter />
+          <CategoryFilter allCategories={allCategories} />
         </div>
       </div>
       <Suspense
