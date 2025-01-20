@@ -13,6 +13,7 @@ interface RegionePageProps {
   searchParams?: Promise<{
     query?: string;
     page?: string;
+    cat?: string;
   }>;
 }
 
@@ -20,6 +21,7 @@ async function RegionePage(props: RegionePageProps) {
   const regione = regioni.find((r) => r.name === props.params.slug);
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
+  const cat = searchParams?.cat || "";
   const currentPage = Number(searchParams?.page) || 1;
   const allCategories = await getAllCategories();
   return (
@@ -44,7 +46,10 @@ async function RegionePage(props: RegionePageProps) {
         key={query + currentPage}
         fallback={<div className='w-full text-center my-4 '>Loading...</div>}
       >
-        <StartupList filters={{ query }} page={currentPage} />
+        <StartupList
+          filters={{ query, regione: regione?.name, categoryId: cat }}
+          page={currentPage}
+        />
       </Suspense>
     </div>
   );
