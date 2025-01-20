@@ -70,38 +70,6 @@ export const fetchFilteredPaginatedStartups = async ({
   };
 };
 
-export const fetchPaginatedStartupsByCategoryId = async ({
-  id,
-  page,
-}: {
-  id: string;
-  page: number;
-}) => {
-  const itemsPerPage = 10;
-  const offset = (page - 1) * itemsPerPage;
-
-  const startups = await prisma.startup.findMany({
-    where: {
-      id,
-    },
-    skip: offset,
-    take: itemsPerPage,
-  });
-
-  const total = await prisma.startup.count({
-    where: {
-      id,
-    },
-  });
-
-  return {
-    data: startups as Startup[],
-    total,
-    totalPages: Math.ceil(total / itemsPerPage),
-    currentPage: page,
-  };
-};
-
 export const getStartupById = async (id: string) => {
   try {
     const startup = await prisma.startup.findUnique({
@@ -181,6 +149,7 @@ export async function getCategoryById(id: string) {
 
   return category;
 }
+
 export async function getCategoryByName(name: string) {
   const category = await prisma.category.findFirst({
     where: {

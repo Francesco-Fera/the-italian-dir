@@ -1,10 +1,7 @@
 import PageHeader from "@/app/components/PageHeader";
 import Search from "@/app/components/Search";
 import StartupList from "@/app/components/StartupList";
-import {
-  fetchPaginatedStartupsByCategoryId,
-  getCategoryByName,
-} from "@/app/lib/actions";
+import { getCategoryByName } from "@/app/lib/actions";
 import { Suspense } from "react";
 
 interface CategoryRouteProps {
@@ -22,10 +19,6 @@ async function CategoryRoute(props: CategoryRouteProps) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const category = await getCategoryByName(props.params.slug);
-  const startups = await fetchPaginatedStartupsByCategoryId({
-    id: category!.id,
-    page: currentPage,
-  });
 
   return (
     <div>
