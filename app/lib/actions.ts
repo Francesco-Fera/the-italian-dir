@@ -78,6 +78,29 @@ export const getStartupById = async (id: string) => {
   }
 };
 
+export async function getStartupBySlug(slug: string) {
+  const decodedSlug = decodeURIComponent(slug);
+  try {
+    const startup = await prisma.startup.findFirst({
+      where: {
+        name: decodedSlug,
+      },
+      include: {
+        category: true,
+      },
+    });
+
+    if (!startup) {
+      return { success: false, error: "Startup not found" };
+    }
+
+    return { success: true, data: startup };
+  } catch (error) {
+    console.error("Error fetching startup:", error);
+    return { success: false, error: "Failed to fetch startup" };
+  }
+}
+
 export const updateStartup = async (formData: FormData) => {
   try {
     const id = formData.get("id") as string;
