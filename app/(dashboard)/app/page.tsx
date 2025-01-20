@@ -23,13 +23,17 @@ async function DashboardRoute() {
 
   return (
     <>
-      <div className='mb-16'>
-        <PageHeader
-          headline='Dashboard'
-          subHeadline='Suggerisci e gestisci le Startup.'
-        />
+      <div className='grid grid-cols-1 md:grid-cols-3 mb-16'>
+        <div className='col-span-2'>
+          <PageHeader
+            headline='Dashboard'
+            subHeadline='Suggerisci e gestisci le Startup.'
+          />
+        </div>
+        <div className='col-span-1 text-right mt-4'>
+          <CreateStartupDialog />
+        </div>
       </div>
-      <CreateStartupDialog />
       <MyStartupList startups={userStartups} />
     </>
   );

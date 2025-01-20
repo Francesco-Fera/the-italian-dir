@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Category, Startup } from "@prisma/client";
 import Link from "next/link";
+import { Card } from "@/components/ui/card";
 
 interface StartupHeroProps {
   startup: Partial<{ category: Partial<Category> | null } & Startup>;
@@ -43,7 +44,7 @@ export function StartupHero({ startup }: StartupHeroProps) {
         </div>
       </div>
       {startup.thumbnailUrl && (
-        <div className='relative aspect-video rounded-lg overflow-hidden'>
+        <Card className='relative aspect-video rounded-lg overflow-hidden '>
           <Image
             src={
               startup.thumbnailUrl || "/placeholder.svg?height=400&width=600"
@@ -53,7 +54,7 @@ export function StartupHero({ startup }: StartupHeroProps) {
             objectFit='cover'
             priority
           />
-        </div>
+        </Card>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { extractStartupData, createStartup } from "@/app/lib/actions";
-import { Loader2, Globe, Pencil } from "lucide-react";
+import { Loader2, Globe, Pencil, Plus } from "lucide-react";
 
 interface FormData {
   websiteUrl: string;
@@ -68,7 +68,8 @@ export function CreateStartupDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className='w-full md:w-auto px-6 py-2 text-lg font-semibold'>
-          <Globe className='mr-2 h-5 w-5' /> Crea la startup
+          <Plus className='mr-2 h-5 w-5 font-black' strokeWidth={4} /> Nuova
+          Startup
         </Button>
       </DialogTrigger>
       <DialogContent className='max-w-lg w-full p-6 rounded-lg shadow-xl'>
@@ -94,7 +95,7 @@ export function CreateStartupDialog() {
                 required
                 className='pl-10'
               />
-              <Globe className='absolute left-3 top-3 h-5 w-5 text-muted-foreground' />
+              <Globe className='absolute left-3 top-2 h-5 w-5 text-muted-foreground' />
             </div>
             <DialogFooter>
               <Button type='submit' disabled={loading} className='w-full'>

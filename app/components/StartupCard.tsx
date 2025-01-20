@@ -21,17 +21,19 @@ export default function StartupCard({ startup }: StartupCardProps) {
     <Card className='h-full flex flex-col'>
       <div className='relative w-full pt-[56.25%]'>
         <Image
-          src={"/default-thumbnail.webp"}
+          src={startup.thumbnailUrl || "/default-thubnail.png"}
           alt={`${startup.name} website thumbnail`}
           fill
           className='object-cover rounded-t-lg'
         />
       </div>
       <CardHeader className='py-2 px-4'>
-        <CardTitle>{startup.name}</CardTitle>
-        <CardDescription>{startup.category.displayName}</CardDescription>
+        <CardTitle className='text-lg'>{startup.name}</CardTitle>
+        <CardDescription>
+          {startup.category?.displayName || "Nessuna categoria"}
+        </CardDescription>
       </CardHeader>
-      <CardContent className='flex-grow px-4'>
+      <CardContent className='flex-grow px-4 text-sm'>
         <p>{startup.tagline}</p>
       </CardContent>
       <CardFooter className='px-4 grid grid-cols-2 gap-x-2'>
