@@ -5,6 +5,8 @@ import { Startup, MediaType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { supabase } from "./supabase";
 import { updateLinksSchema } from "./schemas";
+import puppeteer from "puppeteer";
+import { redirect } from "next/navigation";
 
 export const fetchFilteredPaginatedStartups = async ({
   filters,
@@ -220,16 +222,6 @@ export async function getCategoryByName(name: string) {
 }
 
 export async function uploadImage(file: File, type: MediaType) {
-  // const { getUser } = getKindeServerSession();
-  // const user = await getUser();
-
-  // if (!user) {
-  //   return {
-  //     success: false,
-  //     error: "Unauthorized. You must be logged in to upload files.",
-  //   };
-  // }
-
   try {
     if (!file) {
       throw new Error("No file uploaded");
@@ -303,5 +295,97 @@ export async function updateStartupImages(formData: FormData) {
   } catch (error) {
     console.error("Error:", error);
     return { success: false, error: "Failed to update startup images" };
+  }
+}
+
+interface CreateStartupData {
+  name: string;
+  tagline: string;
+  thumbnailUrl: string;
+  websiteUrl: string;
+}
+
+export async function createStartup(data: CreateStartupData) {
+  let newStartupId: string;
+  try {
+    const newStartup = await prisma.startup.create({
+      data: {
+        name: data.name,
+        tagline: data.tagline,
+        thumbnailUrl: data.thumbnailUrl,
+        websiteUrl: data.websiteUrl,
+      },
+    });
+
+    newStartupId = newStartup.id;
+  } catch (error) {
+    console.error("Errore durante la creazione della startup:", error);
+    return {
+      success: false,
+      error: "Errore durante la creazione della startup",
+    };
+  }
+  redirect(`/app/${newStartupId}`);
+}
+
+export async function extractStartupData(websiteUrl: string) {
+  if (!websiteUrl) {
+    return { success: false, error: "URL non valido" };
+  }
+
+  try {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.goto(websiteUrl, { waitUntil: "networkidle2" });
+
+    // Screenshot della homepage
+    const screenshotBuffer = await page.screenshot({ type: "png" });
+
+    // Estrazione dei metadati usando Puppeteer
+    const metadata = await page.evaluate(() => {
+      const getMetaContent = (name: string) =>
+        document
+          .querySelector(`meta[name="${name}"]`)
+          ?.getAttribute("content") ||
+        document
+          .querySelector(`meta[property="${name}"]`)
+          ?.getAttribute("content");
+
+      return {
+        name:
+          document.title ||
+          getMetaContent("og:title") ||
+          "Nome non disponibile",
+        tagline:
+          getMetaContent("description") ||
+          getMetaContent("og:description") ||
+          "Tagline non disponibile",
+      };
+    });
+
+    await browser.close();
+
+    // Upload dell'immagine usando la server action esistente
+    const file = new File([screenshotBuffer], "thumbnail.png", {
+      type: "image/png",
+    });
+    const imageUploadResult = await uploadImage(file, MediaType.THUMBNAIL);
+
+    if (!imageUploadResult || !imageUploadResult.url) {
+      throw new Error("Errore durante l'upload dell'immagine");
+    }
+
+    return {
+      success: true,
+      data: {
+        name: metadata.name,
+        tagline: metadata.tagline,
+        thumbnailUrl: imageUploadResult.url,
+        websiteUrl,
+      },
+    };
+  } catch (error) {
+    console.error("Errore durante l'estrazione dei dati:", error);
+    return { success: false, error: "Errore durante l'elaborazione dei dati" };
   }
 }

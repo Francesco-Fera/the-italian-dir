@@ -1,3 +1,4 @@
+import { CreateStartupDialog } from "@/app/components/CreateStartupDialog";
 import MyStartupList from "@/app/components/MyStartupList";
 import PageHeader from "@/app/components/PageHeader";
 import { getUserStartups } from "@/app/lib/actions";
@@ -28,6 +29,7 @@ async function DashboardRoute() {
           subHeadline='Suggerisci e gestisci le Startup.'
         />
       </div>
+      <CreateStartupDialog />
       <MyStartupList startups={userStartups} />
     </>
   );
