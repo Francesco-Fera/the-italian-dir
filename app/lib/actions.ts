@@ -4,18 +4,7 @@ import prisma from "@/lib/db";
 import { Startup, MediaType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { supabase } from "./supabase";
-
-export const getTotalStartups = async (query: string): Promise<number> => {
-  const total = await prisma.startup.count({
-    where: {
-      name: {
-        contains: query,
-        mode: "insensitive",
-      },
-    },
-  });
-  return total;
-};
+import { updateLinksSchema } from "./schemas";
 
 export const fetchFilteredPaginatedStartups = async ({
   filters,
@@ -133,6 +122,53 @@ export const updateStartup = async (formData: FormData) => {
     console.error("Error updating startup:", error);
     return { success: false, error: "Failed to update startup" };
   }
+};
+
+export async function updateStartupLinks(formData: FormData) {
+  try {
+    const validatedData = updateLinksSchema.parse({
+      id: formData.get("id"),
+      contactEmail: formData.get("contactEmail"),
+      twitterUrl: formData.get("twitterUrl") || "",
+      linkedinUrl: formData.get("linkedinUrl") || "",
+      facebookUrl: formData.get("facebookUrl") || "",
+      instagramUrl: formData.get("instagramUrl") || "",
+      githubUrl: formData.get("githubUrl") || "",
+      blogUrl: formData.get("blogUrl") || "",
+      pricingPageUrl: formData.get("pricingPageUrl") || "",
+      jobsUrl: formData.get("jobsUrl") || "",
+    });
+
+    const updatedStartup = await prisma.startup.update({
+      where: { id: validatedData.id },
+      data: {
+        contactEmail: validatedData.contactEmail,
+        twitterUrl: validatedData.twitterUrl,
+        linkedinUrl: validatedData.linkedinUrl,
+        facebookUrl: validatedData.facebookUrl,
+        instagramUrl: validatedData.instagramUrl,
+        githubUrl: validatedData.githubUrl,
+        blogUrl: validatedData.blogUrl,
+        pricingPageUrl: validatedData.pricingPageUrl,
+        jobsUrl: validatedData.jobsUrl,
+      },
+    });
+    revalidatePath(`/app/${updatedStartup.id}`);
+    return { success: true, message: "Startup links updated successfully." };
+  } catch (error) {
+    console.error("Error updating startup links:", error);
+    return { success: false, error: "Failed to update startup links." };
+  }
+}
+
+export const getUserStartups = async (userId: string) => {
+  const startups = await prisma.startup.findMany({
+    where: {
+      suggestedByUserId: userId,
+    },
+  });
+
+  return startups;
 };
 
 export async function getAllCategories() {

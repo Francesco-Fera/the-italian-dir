@@ -55,7 +55,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
             />
           </TabsContent>
           <TabsContent value='links'>
-            <LinksForm />
+            <LinksForm startup={startup} />
           </TabsContent>
         </Tabs>
       </div>

@@ -34,19 +34,28 @@ enum StartupStatus {
 }
 
 model Startup {
-  id           String        @id @default(uuid())
-  name         String
-  tagline      String?
-  description  String?
-  websiteUrl   String?
-  foundedYear  Int?
-  location     String?
-  status       StartupStatus @default(PENDING)
-  features     String[]
-  logoUrl      String?
-  thumbnailUrl String?
-  category     Category?     @relation(fields: [categoryId], references: [id])
-  categoryId   String?
+  id             String        @id @default(uuid())
+  name           String
+  tagline        String?
+  description    String?
+  websiteUrl     String?
+  contactEmail   String?
+  twitterUrl     String?
+  linkedinUrl    String?
+  facebookUrl    String?
+  instagramUrl   String?
+  githubUrl      String?
+  blogUrl        String?
+  pricingPageUrl String?
+  jobsUrl        String?
+  foundedYear    Int?
+  location       String?
+  status         StartupStatus @default(PENDING)
+  features       String[]
+  logoUrl        String?
+  thumbnailUrl   String?
+  category       Category?     @relation(fields: [categoryId], references: [id])
+  categoryId     String?
 
   suggestedByUser   User?   @relation(fields: [suggestedByUserId], references: [id])
   suggestedByUserId String?
