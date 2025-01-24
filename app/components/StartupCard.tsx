@@ -28,13 +28,13 @@ export default function StartupCard({ startup }: StartupCardProps) {
         />
       </div>
       <CardHeader className='py-2 px-4'>
-        <CardTitle className='text-lg'>{startup.name}</CardTitle>
+        <CardTitle className='text-xl'>{startup.name}</CardTitle>
         <CardDescription>
           {startup.category?.displayName || "Nessuna categoria"}
         </CardDescription>
       </CardHeader>
-      <CardContent className='flex-grow px-4 text-sm'>
-        <p>{startup.tagline}</p>
+      <CardContent className='flex-grow px-4 '>
+        <p className='line-clamp-3'>{startup.tagline}</p>
       </CardContent>
       <CardFooter className='px-4 grid grid-cols-2 gap-x-2'>
         <Button>

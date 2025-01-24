@@ -334,14 +334,18 @@ export async function extractStartupData(websiteUrl: string) {
   }
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--lang="it-IT"'],
+    });
     const page = await browser.newPage();
+    await page.setExtraHTTPHeaders({
+      "Accept-Language": "it",
+    });
     await page.goto(websiteUrl, { waitUntil: "networkidle2" });
 
-    // Screenshot della homepage
     const screenshotBuffer = await page.screenshot({ type: "png" });
 
-    // Estrazione dei metadati usando Puppeteer
     const metadata = await page.evaluate(() => {
       const getMetaContent = (name: string) =>
         document
