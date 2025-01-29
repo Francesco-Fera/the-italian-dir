@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Italian Startup Directory
 
-## Getting Started
+📢 **Italian Startup Directory** è una piattaforma per scoprire, esplorare e promuovere le startup italiane. Gli utenti possono visualizzare informazioni dettagliate sulle startup, filtrare per categoria e regione, e aggiungere nuove startup in pochi click.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Funzionalità principali
+
+- 🔎 **Esplora le startup** → Filtra per categoria, regione e nome.
+- 📊 **Dettagli startup** → Visualizza descrizione, tagline, contatti e link ai social.
+- 🏗 **Crea una nuova startup** → Inserisci l'URL del sito e ottieni automaticamente screenshot, nome e tagline.
+- 🏷 **Categorie e regioni** → Organizzazione delle startup in base alla loro area di mercato e posizione geografica.
+- 📸 **Caricamento immagini** → Screenshot automatico della homepage tramite Puppeteer e salvataggio su Supabase.
+- 🌐 **Link social e sito web** → Accesso rapido ai profili social e sito ufficiale di ogni startup.
+
+---
+
+## 🛠️ Tecnologie utilizzate
+
+| Tecnologia           | Scopo                                        |
+| -------------------- | -------------------------------------------- |
+| **Next.js 15**       | Framework React per SSR e ISR                |
+| **React**            | Libreria per la UI interattiva               |
+| **TypeScript**       | Tipizzazione statica per maggiore sicurezza  |
+| **Prisma**           | ORM per la gestione del database             |
+| **PostgreSQL**       | Database relazionale                         |
+| **Puppeteer**        | Web scraping per screenshot e metadati       |
+| **Supabase Storage** | Storage per immagini                         |
+| **Lucide Icons**     | Icone leggere e moderne                      |
+| **Shadcn/ui**        | Componenti UI accessibili e personalizzabili |
+| **Kinde Auth**       | Autenticazione utente                        |
+
+---
+
+## 📦 Installazione e configurazione
+
+### 1️⃣ Clona il repository
+
+```sh
+git clone https://github.com/Francesco-Fera/the-italian-dir.git
+cd all-italian-startup-dir
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ Installa le dipendenze
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> 🔥 **Nota:** Assicurati di avere **Node.js** e **npm** installati.
 
-## Learn More
+### 3️⃣ Configura le variabili d'ambiente
 
-To learn more about Next.js, take a look at the following resources:
+Crea un file `.env.local` nella root del progetto e aggiungi le seguenti variabili:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ini
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_URL=
+DATABASE_URL=
+DIRECT_URL=
+KINDE_CLIENT_ID=
+KINDE_CLIENT_SECRET=
+KINDE_ISSUER_URL=https://your-kinde-domain.kinde.com
+KINDE_SITE_URL=http://localhost:3000
+KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
+KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/api/auth/creation
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> 📌 **Suggerimento:** Se usi Supabase, assicurati di aver creato un **bucket storage** per le immagini.
 
-## Deploy on Vercel
+### 4️⃣ Esegui il progetto in locale
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```sh
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+L'applicazione sarà disponibile su **http://localhost:3000** 🚀
+
+---
+
+## 📌 Contributi
+
+💡 **Vuoi contribuire?** Sentiti libero di aprire una PR o segnalare problemi nella sezione Issues.
+
+### 📢 Contatti
+
+📩 **Email:** francescofera157@gmail.com  
+🌍 **Sito Web:** [francescofera.com](https://francescofera.com)  
+🐦 **Linkedin:** [@francescofera](https://www.linkedin.com/in/francescofera/)
+
+---
+
+## 📜 Licenza
+
+Questo progetto è rilasciato sotto la licenza **MIT**. Vedi il file [LICENSE](LICENSE) per maggiori dettagli.
