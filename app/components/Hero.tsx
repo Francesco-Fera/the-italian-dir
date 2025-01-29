@@ -14,8 +14,8 @@ const Hero = () => {
             delle startup italiane.
           </h1>
           <p className='text-balance text-muted-foreground lg:text-lg'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            corporis eligendi placeat.
+            Scopri le startup italiane più innovative e promuovi la tua startup{" "}
+            <span className='italic'>made in Italy</span>.
           </p>
         </div>
         <Button size='lg' className='mt-10'>

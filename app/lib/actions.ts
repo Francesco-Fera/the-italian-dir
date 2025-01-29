@@ -393,3 +393,13 @@ export async function extractStartupData(websiteUrl: string) {
     return { success: false, error: "Errore durante l'elaborazione dei dati" };
   }
 }
+
+export async function fetchLatestStartups(limit: number) {
+  const startups = await prisma.startup.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+  });
+  return startups;
+}
