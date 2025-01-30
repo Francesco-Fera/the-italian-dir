@@ -7,6 +7,7 @@ import Link from "next/link";
 import MediaForm from "@/app/components/MediaForm";
 import GeneralInfoForm from "@/app/components/GeneralInfoForm";
 import LinksForm from "@/app/components/LinksForm";
+import BadgeSection from "@/app/components/BadgeSection";
 
 interface MyStartupCrudPageProps {
   params: Promise<{
@@ -43,6 +44,7 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
             <TabsTrigger value='general'>Generale</TabsTrigger>
             <TabsTrigger value='Media'>Media</TabsTrigger>
             <TabsTrigger value='links'>Links</TabsTrigger>
+            <TabsTrigger value='badge'>Badge</TabsTrigger>
           </TabsList>
           <TabsContent value='general'>
             <GeneralInfoForm startup={startup} />
@@ -56,6 +58,9 @@ async function MyStartupDetailsPage({ params }: MyStartupCrudPageProps) {
           </TabsContent>
           <TabsContent value='links'>
             <LinksForm startup={startup} />
+          </TabsContent>
+          <TabsContent value='badge'>
+            <BadgeSection startupId={startupId} startupName={startup.name} />
           </TabsContent>
         </Tabs>
       </div>

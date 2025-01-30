@@ -10,3 +10,24 @@ export function SubmitButton() {
     </Button>
   );
 }
+
+export function DownloadBadgeButton() {
+  const downloadBadge = () => {
+    const link = document.createElement("a");
+    link.href = "http://localhost:3000/featured_badge_light.png";
+    link.download = "featured-badge-light.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <Button
+      variant='link'
+      onClick={downloadBadge}
+      className='text-sm underline'
+    >
+      Scarica il badge
+    </Button>
+  );
+}
